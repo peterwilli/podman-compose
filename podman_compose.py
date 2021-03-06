@@ -18,6 +18,7 @@ import re
 import hashlib
 import random
 import json
+import pathlib
 
 from threading import Thread
 
@@ -90,6 +91,8 @@ def parse_short_mount(mount_str, basedir):
         mount_type = "bind"
         # TODO: should we use os.path.realpath(basedir)?
         mount_src = os.path.join(basedir, os.path.expanduser(mount_src))
+        if not os.path.isfile(mount_src):
+            pathlib.Path(mount_src).mkdir(parents=True, exist_ok=True)
     else:
         # Named volume
         # - datavolume:/var/lib/mysql
